@@ -3,9 +3,9 @@
 
 #include "base"
 
-BuyMenu::BuyMenu g_CS16Menu;
+CS16BuyMenu::BuyMenu g_CS16Menu;
 
-namespace BuyMenu
+namespace CS16BuyMenu
 {
 
 dictionary BuyPoints; // Save the player's current money
@@ -160,12 +160,8 @@ final class BuyMenuCVARS
 		CBasePlayer@ pPlayer = pParams.GetPlayer();
 		const CCommand@ args = pParams.GetArguments();
 
-		if( args.ArgC() == 1 && FirstArgChecker( args ) )
-		{
-			pParams.ShouldHide = true;
-			g_CS16Menu.Show( pPlayer );
-		}
-		else if( args.ArgC() == 3 && FirstArgChecker( args ) )
+		/* if( args.ArgC() == 1 && FirstArgChecker( args ) ) { pParams.ShouldHide = true; g_CS16Menu.Show( pPlayer ); } */
+		if( args.ArgC() == 3 && FirstArgChecker( args ) )
 		{
 			pParams.ShouldHide = true;
 			bool bItemFound = false;
@@ -200,7 +196,7 @@ final class BuyMenuCVARS
 
 				if( bItemFound )
 				{
-					if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
+					if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
 					{
 						g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTTALK, "[CS16 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 					}
@@ -211,9 +207,9 @@ final class BuyMenuCVARS
 					}
 					else
 					{ 
-						if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
+						if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
 						{
-							BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
+							CS16BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
 							ShowPointsSprite( pPlayer );
 							pPlayer.GiveNamedItem( szItemName );
 						}
@@ -272,22 +268,22 @@ final class BuyMenuCVARS
 
 					if( bItemFound )
 					{
-						if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
+						if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
 						{
 							g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTTALK, "[CS16 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 						}
 						//Very tedious check to see if the player already has max ammo for a exhaustible weapon
-						else if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost && pPlayer.HasNamedPlayerItem( szClassname ).iFlags() & ITEM_FLAG_EXHAUSTIBLE != 0 &&
+						else if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost && pPlayer.HasNamedPlayerItem( szClassname ).iFlags() & ITEM_FLAG_EXHAUSTIBLE != 0 &&
 							pPlayer.m_rgAmmo( pPlayer.HasNamedPlayerItem( szClassname ).GetWeaponPtr().m_iPrimaryAmmoType ) == pPlayer.GetMaxAmmo( szClassname ) )
 						{
 							g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTTALK, "[CS16 BUYMENU] Exhaustible weapon already at max ammo\n" );
 						}
 						else
 						{ 
-							if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
+							if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
 							{
 								pPlayer.GiveNamedItem( szItemName );
-								BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
+								CS16BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
 
 								ShowPointsSprite( pPlayer );
 							}
@@ -349,7 +345,7 @@ final class BuyMenuCVARS
 
 				if( bItemFound )
 				{
-					if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
+					if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
 					{
 						g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTCONSOLE, "[CS16 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 					}
@@ -359,9 +355,9 @@ final class BuyMenuCVARS
 					}
 					else
 					{ 
-						if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
+						if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
 						{
-							BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
+							CS16BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
 							ShowPointsSprite( pPlayer );
 							pPlayer.GiveNamedItem( szItemName );
 						}
@@ -419,22 +415,22 @@ final class BuyMenuCVARS
 
 					if( bItemFound )
 					{
-						if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
+						if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) <= 0 )
 						{
 							g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTCONSOLE, "[CS16 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 						}
 						//Very tedious check to see if the player already has max ammo for a exhaustible weapon
-						else if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost && pPlayer.HasNamedPlayerItem( szClassname ).iFlags() & ITEM_FLAG_EXHAUSTIBLE != 0 &&
+						else if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost && pPlayer.HasNamedPlayerItem( szClassname ).iFlags() & ITEM_FLAG_EXHAUSTIBLE != 0 &&
 							pPlayer.m_rgAmmo( pPlayer.HasNamedPlayerItem( szClassname ).GetWeaponPtr().m_iPrimaryAmmoType ) == pPlayer.GetMaxAmmo( szClassname ) )
 						{
 							g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTCONSOLE, "[CS16 BUYMENU] Exhaustible weapon already at max ammo\n" );
 						}
 						else
 						{ 
-							if( uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
+							if( uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) >= uiCost )
 							{
 								pPlayer.GiveNamedItem( szItemName );
-								BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
+								CS16BuyMenu::BuyPoints[PlayerID( pPlayer )] = uint(CS16BuyMenu::BuyPoints[PlayerID( pPlayer )]) - uiCost;
 
 								ShowPointsSprite( pPlayer );
 							}
@@ -459,52 +455,52 @@ void RegisterBuyMenuCCVars()
 	if( g_MaxMoney is null || g_MoneyPerScore is null || g_StartMoney is null ) //Check if they exist first
 	{
 		//g_Game.AlertMessage( at_console, "CCVars added\n" );
-		@g_MaxMoney = CCVar( "bm_maxmoney", MaxMoney, "Maximum money the player can have", ConCommandFlag::AdminOnly ); //as_command cs16.bm_maxmoney
-		@g_MoneyPerScore = CCVar( "bm_moneyperscore", MoneyPerScore, "Money the player will earn per score", ConCommandFlag::AdminOnly ); //as_command cs16.bm_moneyperscore
-		@g_StartMoney = CCVar( "bm_startmoney", StartMoney, "Money the player will start once he joins the server", ConCommandFlag::AdminOnly ); //as_command cs16.bm_startmoney
+		@g_MaxMoney = CCVar( "cs16_bm_maxmoney", MaxMoney, "Maximum money the player can have", ConCommandFlag::AdminOnly );
+		@g_MoneyPerScore = CCVar( "cs16_bm_moneyperscore", MoneyPerScore, "Money the player will earn per score", ConCommandFlag::AdminOnly );
+		@g_StartMoney = CCVar( "cs16_bm_startmoney", StartMoney, "Money the player will start once he joins the server", ConCommandFlag::AdminOnly );
 	}
 }
 
 //Delegate Object
-HookReturnCode PlayerPostThink( CBasePlayer@ pPlayer )
+HookReturnCode CS16_PlayerPostThink_Hook( CBasePlayer@ pPlayer )
 {
-	BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @BuyMenu::BuyMenuCVARS();
+	CS16BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @CS16BuyMenu::BuyMenuCVARS();
 	return g_CS16MenuHooks.CS16_PlayerPostThink( pPlayer );
 }
 
 //Delegate Object
-HookReturnCode ClientPutInServer( CBasePlayer@ pPlayer )
+HookReturnCode CS16_ClientPutInServer_Hook( CBasePlayer@ pPlayer )
 {
-	BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @BuyMenu::BuyMenuCVARS();
+	CS16BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @CS16BuyMenu::BuyMenuCVARS();
 	return g_CS16MenuHooks.CS16_ClientPutInServer( pPlayer );
 }
 
 //Delegate Object
-HookReturnCode ClientSay( SayParameters@ pParams )
+HookReturnCode CS16_ClientSay_Hook( SayParameters@ pParams )
 {
-	BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @BuyMenu::BuyMenuCVARS();
+	CS16BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @CS16BuyMenu::BuyMenuCVARS();
 	return g_CS16MenuHooks.CS16_ClientSay( pParams );
 }
 
 //Delegate Function
-void CS16_Buy( const CCommand@ args )
+void CS16_Buy_Hook( const CCommand@ args )
 {
-	BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @BuyMenu::BuyMenuCVARS();
+	CS16BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @CS16BuyMenu::BuyMenuCVARS();
 	g_CS16MenuHooks.CS16_Buy( args );
 }
 
-CClientCommand _buy( "buy", "Opens the BuyMenu", @CS16_Buy );
+// CClientCommand _buy( "buy", "Opens the BuyMenu", @CS16_Buy_Hook );
 
 void MoneyInit()
 {
 	BuyPoints.deleteAll(); //Comment out to keep the points in map change
 	OldScore.deleteAll();  //Comment out to keep the points in map change
 
-	g_Game.PrecacheModel( CS16BASE::MAIN_SPRITE_DIR + BuyMenu::MoneySignSpr );
+	g_Game.PrecacheModel( CS16BASE::MAIN_SPRITE_DIR + CS16BuyMenu::MoneySignSpr );
 
-	g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @ClientPutInServer );
-	g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @PlayerPostThink );
-	g_Hooks.RegisterHook( Hooks::Player::ClientSay, @ClientSay );
+	g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @CS16_ClientPutInServer_Hook );
+	g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @CS16_PlayerPostThink_Hook );
+	g_Hooks.RegisterHook( Hooks::Player::ClientSay, @CS16_ClientSay_Hook );
 
 	//g_Game.AlertMessage( at_console, "Hooks Registered\n" );
 }
@@ -516,7 +512,7 @@ final class BuyableItem
 	private string m_szCategory;
 	private string m_szSubCategory;
 	private uint m_uiCost = 0;
-	private BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @BuyMenu::BuyMenuCVARS();
+	private CS16BuyMenu::BuyMenuCVARS@ g_CS16MenuHooks = @CS16BuyMenu::BuyMenuCVARS();
 
 	string Description
 	{
@@ -932,3 +928,4 @@ final class BuyMenu
 }
 
 }
+

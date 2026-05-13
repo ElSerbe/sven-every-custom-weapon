@@ -89,7 +89,7 @@
 #include "srifl/weapon_ins2g43"
 #include "srifl/weapon_ins2m21"
 
-void RegisterAll()
+void INS2RegisterAll()
 {
 	//assault rifles
 	INS2_AKM::Register();

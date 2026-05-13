@@ -12,7 +12,7 @@ Doing so is against the release license of this project, and proper actions will
 
 */
 
-namespace BuyMenu
+namespace CoFBuyMenu
 {
 
 final class BuyableItem

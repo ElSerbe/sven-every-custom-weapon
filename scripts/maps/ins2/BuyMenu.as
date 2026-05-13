@@ -13,9 +13,9 @@ New World Interactive's EULAs can be found in the project's GITHUB page.
 
 */
 
-BuyMenu::BuyMenu g_Ins2Menu;
+Ins2BuyMenu::BuyMenu g_Ins2Menu;
 
-namespace BuyMenu
+namespace Ins2BuyMenu
 {
 
 dictionary BuyPoints; // Save the player's current money
@@ -62,9 +62,9 @@ void RegisterBuyMenuCCVars()
 	if( g_MaxMoney is null || g_MoneyPerScore is null || g_StartMoney is null ) //Check if they exist first
 	{
 		//g_Game.AlertMessage( at_console, "CCVars added\n" );
-		@g_MaxMoney = CCVar( "bm_maxmoney", MaxMoney, "Maximum money the player can have", ConCommandFlag::AdminOnly ); //as_command ins2.bm_maxmoney
-		@g_MoneyPerScore = CCVar( "bm_moneyperscore", MoneyPerScore, "Money the player will earn per score", ConCommandFlag::AdminOnly ); //as_command ins2.bm_moneyperscore
-		@g_StartMoney = CCVar( "bm_startmoney", StartMoney, "Money the player will start once he joins the server", ConCommandFlag::AdminOnly ); //as_command ins2.bm_startmoney
+		@g_MaxMoney = CCVar( "ins2_bm_maxmoney", MaxMoney, "Maximum money the player can have", ConCommandFlag::AdminOnly );
+		@g_MoneyPerScore = CCVar( "ins2_bm_moneyperscore", MoneyPerScore, "Money the player will earn per score", ConCommandFlag::AdminOnly );
+		@g_StartMoney = CCVar( "ins2_bm_startmoney", StartMoney, "Money the player will start once he joins the server", ConCommandFlag::AdminOnly );
 	}
 }
 
@@ -73,7 +73,7 @@ void MoneyInit()
 	BuyPoints.deleteAll();
 	OldScore.deleteAll();
 
-	g_Game.PrecacheModel( "sprites/" + BuyMenu::MoneySignSpr );
+	g_Game.PrecacheModel( "sprites/" + Ins2BuyMenu::MoneySignSpr );
 	g_Hooks.RegisterHook( Hooks::Player::ClientPutInServer, @INS2_ClientPutInServer );
 	g_Hooks.RegisterHook( Hooks::Player::PlayerPostThink, @INS2_PlayerPostThink );
 	g_Hooks.RegisterHook( Hooks::Player::ClientSay, @INS2_ClientSay );
@@ -158,7 +158,7 @@ HookReturnCode INS2_PlayerPostThink( CBasePlayer@ pPlayer )
 	return HOOK_CONTINUE;
 }
 
-CClientCommand _buy( "buy", "Opens the BuyMenu", @INS2_Buy );
+// CClientCommand _buy( "buy", "Opens the BuyMenu", @INS2_Buy );
 
 void INS2_Buy( const CCommand@ args )
 {
@@ -201,7 +201,7 @@ void INS2_Buy( const CCommand@ args )
 
 			if( bItemFound )
 			{
-				if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) <= 0 )
+				if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) <= 0 )
 				{
 					g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTCONSOLE, "[INS2 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 				}
@@ -211,10 +211,10 @@ void INS2_Buy( const CCommand@ args )
 				}
 				else
 				{ 
-					if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) >= uiCost )
+					if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) >= uiCost )
 					{
-						BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) - uiCost;
-						BuyMenu::ShowPointsSprite( pPlayer );
+						Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )] = uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) - uiCost;
+						Ins2BuyMenu::ShowPointsSprite( pPlayer );
 						pPlayer.SetItemPickupTimes( 0.0 );
 						pPlayer.GiveNamedItem( szItemName );
 					}
@@ -291,7 +291,7 @@ void INS2_Buy( const CCommand@ args )
 
 				if( bItemFound )
 				{
-					if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) <= 0 )
+					if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) <= 0 )
 					{
 						g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTCONSOLE, "[INS2 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 
@@ -302,28 +302,28 @@ void INS2_Buy( const CCommand@ args )
 					}
 					else
 					{ 
-						if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) >= uiCost )
+						if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) >= uiCost )
 						{
 							pPlayer.GiveNamedItem( szItemName );
-							BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) - uiCost;
+							Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )] = uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) - uiCost;
 
 							if( bItem2Found )
 							{
-								if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) <= 0 )
+								if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) <= 0 )
 								{
 									g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTCONSOLE, "[INS2 BUYMENU] Not enough money to buy: " + szItem2Name + " - Cost: $" + uiCost2 + "\n" );
 								}
 								else
 								{
-									if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) >= uiCost2 )
+									if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) >= uiCost2 )
 									{
 										pPlayer.GiveNamedItem( szItem2Name );
-										BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) - uiCost2;
+										Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )] = uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) - uiCost2;
 									}
 								}
 							}
 
-							BuyMenu::ShowPointsSprite( pPlayer );
+							Ins2BuyMenu::ShowPointsSprite( pPlayer );
 						}
 						else
 						{
@@ -349,12 +349,7 @@ HookReturnCode INS2_ClientSay( SayParameters@ pParams )
 	CBasePlayer@ pPlayer = pParams.GetPlayer();
 	const CCommand@ args = pParams.GetArguments();
 	
-	if( args.ArgC() == 1 && FirstArgChecker( args ) )
-	{
-		pParams.ShouldHide = true;
-		g_Ins2Menu.Show( pPlayer );
-	}
-	else if( args.ArgC() == 3 && FirstArgChecker( args ) )
+	/* if( args.ArgC() == 1 && FirstArgChecker( args ) ) { pParams.ShouldHide = true; g_Ins2Menu.Show( pPlayer ); } */ if( args.ArgC() == 3 && FirstArgChecker( args ) )
 	{
 		pParams.ShouldHide = true;
 		bool bItemFound = false;
@@ -389,7 +384,7 @@ HookReturnCode INS2_ClientSay( SayParameters@ pParams )
 
 			if( bItemFound )
 			{
-				if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) <= 0 )
+				if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) <= 0 )
 				{
 					g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTTALK, "[INS2 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 				}
@@ -399,10 +394,10 @@ HookReturnCode INS2_ClientSay( SayParameters@ pParams )
 				}
 				else
 				{ 
-					if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) >= uiCost )
+					if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) >= uiCost )
 					{
-						BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) - uiCost;
-						BuyMenu::ShowPointsSprite( pPlayer );
+						Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )] = uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) - uiCost;
+						Ins2BuyMenu::ShowPointsSprite( pPlayer );
 						pPlayer.SetItemPickupTimes( 0.0 );
 						pPlayer.GiveNamedItem( szItemName );
 					}
@@ -481,7 +476,7 @@ HookReturnCode INS2_ClientSay( SayParameters@ pParams )
 				//g_Game.AlertMessage( at_console, "Ammo 1: " + szItemName + "\nAmmo 2: " + szItem2Name + "\n" );
 				if( bItemFound )
 				{
-					if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) <= 0 )
+					if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) <= 0 )
 					{
 						g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTTALK, "[INS2 BUYMENU] Not enough money to buy: " + szItemName + " - Cost: $" + uiCost + "\n" );
 
@@ -492,28 +487,28 @@ HookReturnCode INS2_ClientSay( SayParameters@ pParams )
 					}
 					else
 					{ 
-						if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) >= uiCost )
+						if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) >= uiCost )
 						{
 							pPlayer.GiveNamedItem( szItemName );
-							BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) - uiCost;
+							Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )] = uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) - uiCost;
 
 							if( bItem2Found )
 							{
-								if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) <= 0 )
+								if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) <= 0 )
 								{
 									g_PlayerFuncs.ClientPrint( pPlayer, HUD_PRINTTALK, "[INS2 BUYMENU] Not enough money to buy: " + szItem2Name + " - Cost: $" + uiCost2 + "\n" );
 								}
 								else
 								{
-									if( uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) >= uiCost2 )
+									if( uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) >= uiCost2 )
 									{
 										pPlayer.GiveNamedItem( szItem2Name );
-										BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )] = uint(BuyMenu::BuyPoints[BuyMenu::PlayerID( pPlayer )]) - uiCost2;
+										Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )] = uint(Ins2BuyMenu::BuyPoints[Ins2BuyMenu::PlayerID( pPlayer )]) - uiCost2;
 									}
 								}
 							}
 
-							BuyMenu::ShowPointsSprite( pPlayer );
+							Ins2BuyMenu::ShowPointsSprite( pPlayer );
 						}
 						else
 						{
@@ -1144,3 +1139,4 @@ final class BuyMenu
 }
 
 }
+
