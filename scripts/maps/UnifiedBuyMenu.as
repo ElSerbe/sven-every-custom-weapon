@@ -8,6 +8,7 @@ void CreateUnifiedMenu()
 	@g_pUnifiedMenu = CTextMenu( @UnifiedMenuCallback );
 	g_pUnifiedMenu.SetTitle( "Select Weapon Pack:\n" );
 	g_pUnifiedMenu.AddItem( "Cry of Fear Weapons" );
+	g_pUnifiedMenu.AddItem( "Counter-Strike Online Weapons" );
 	g_pUnifiedMenu.AddItem( "Counter-Strike 1.6 Weapons" );
 	g_pUnifiedMenu.AddItem( "Insurgency Weapons" );
 	g_pUnifiedMenu.Register();
@@ -41,6 +42,10 @@ void UnifiedMenuCallback( CTextMenu@ menu, CBasePlayer@ pPlayer, int iSlot, cons
 	if( szChoice == "Cry of Fear Weapons" )
 	{
 		g_CoFMenu.Show( pPlayer );
+	}
+	else if( szChoice == "Counter-Strike Online Weapons" )
+	{
+		g_CSOMenu.Show( pPlayer );
 	}
 	else if( szChoice == "Counter-Strike 1.6 Weapons" )
 	{
