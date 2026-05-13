@@ -5,24 +5,15 @@ Joining every custom weapons pack I've found on the internet. Feel free to post 
 
 This repository now includes a unified Sven Co-op plugin entrypoint at `scripts/plugins/sven_every_custom_weapon.as`.
 
-To load it from `default_plugins.txt`, add this line:
+Place this inside `default_plugins.txt`:
 
 ```txt
-sven_every_custom_weapon
-```
-
-Example:
-
-```txt
-"plugins"
-{
-"plugin"
-{
-	"name" "sven_every_custom_weapon"
-	"script" "sven_every_custom_weapon"
-	"adminlevel" "ADMIN_NO"
-}
-}
+	"plugin"
+	{
+		"name" "sven_every_custom_weapon"
+		"script" "sven_every_custom_weapon"
+		"adminlevel" "ADMIN_NO"
+	}
 ```
 
 `ADMIN_NO` is important here so the `ClientSay` hook can react to `!buy` for normal players too.
@@ -38,3 +29,11 @@ Load that plugin from your server plugin list and the pack will register all thr
 - Insurgency
 
 When a player writes `!buy` in chat, the plugin opens a category selector first, then forwards the player to the corresponding weapon shop.
+
+## Thanks
+
+Special thanks to KernCore, original author and maintainer of these custom weapon packs, and to the original games that inspired each set of weapons:
+
+- Cry of Fear
+- Counter-Strike 1.6
+- Insurgency
